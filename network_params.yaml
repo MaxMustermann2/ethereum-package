@@ -1,7 +1,7 @@
 participants:
 # EL
   - el_type: geth
-    el_image: ethereum/client-go:latest
+    el_image: ethereum/client-go:v1.16.3
     el_log_level: ""
     el_extra_env_vars: {}
     el_extra_labels: {}
@@ -15,7 +15,7 @@ participants:
     el_max_mem: 0
 # CL
     cl_type: lighthouse
-    cl_image: sigp/lighthouse:latest
+    cl_image: sigp/lighthouse@sha256:a6e2b100ae4020160bbb68b135bffbb473ba43ec94d6f96c001d8d8bc3438c89
     cl_log_level: ""
     cl_extra_env_vars: {}
     cl_extra_labels: {}
@@ -31,7 +31,7 @@ participants:
     use_separate_vc: true
 # Validator
     vc_type: lighthouse
-    vc_image: sigp/lighthouse:latest
+    vc_image: sigp/lighthouse@sha256:a6e2b100ae4020160bbb68b135bffbb473ba43ec94d6f96c001d8d8bc3438c89
     vc_log_level: ""
     vc_extra_env_vars: {}
     vc_extra_labels: {}
@@ -46,7 +46,7 @@ participants:
     use_remote_signer: false
 # Remote signer
     remote_signer_type: web3signer
-    remote_signer_image: consensys/web3signer:latest
+    remote_signer_image: consensys/web3signer:25.9.1
     remote_signer_extra_env_vars: {}
     remote_signer_extra_labels: {}
     remote_signer_extra_params: []
@@ -71,10 +71,10 @@ participants:
     keymanager_enabled: false
 network_params:
   network: kurtosis
-  network_id: "3151908"
+  network_id: "31337"
   deposit_contract_address: "0x00000000219ab540356cBB839Cbe05303d7705Fa"
-  seconds_per_slot: 12
-  slot_duration_ms: 12000
+  seconds_per_slot: 6
+  slot_duration_ms: 6000
   num_validator_keys_per_node: 64
   preregistered_validator_keys_mnemonic:
     "giant issue aisle success illegal bike spike
@@ -111,9 +111,77 @@ network_params:
   max_request_blob_sidecars_electra: 1152
   target_blobs_per_block_electra: 6
   base_fee_update_fraction_electra: 5007716
-  additional_preloaded_contracts: {}
+  additional_preloaded_contracts: '{
+    "0x4e59b44847b379578588920cA78FbF26c0B4956C": {
+      "balance": "0",
+      "code": "0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf3",
+      "storage": {},
+      "nonce": 0,
+      "secretKey": "0x"
+    }
+  }'
   devnet_repo: ethpandaops
-  prefunded_accounts: {}
+  prefunded_accounts: '{
+    "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955": {
+      "balance": "1000000000000000000000"
+    },
+    "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65": {
+      "balance": "1000000000000000000000"
+    },
+    "0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec": {
+      "balance": "1000000000000000000000"
+    },
+    "0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f": {
+      "balance": "1000000000000000000000"
+    },
+    "0x2546BcD3c84621e976D8185a91A922aE77ECEc30": {
+      "balance": "1000000000000000000000"
+    },
+    "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": {
+      "balance": "1000000000000000000000"
+    },
+    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": {
+      "balance": "1000000000000000000000"
+    },
+    "0x71bE63f3384f5fb98995898A86B02Fb2426c5788": {
+      "balance": "1000000000000000000000"
+    },
+    "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199": {
+      "balance": "1000000000000000000000"
+    },
+    "0x90F79bf6EB2c4f870365E785982E1f101E93b906": {
+      "balance": "1000000000000000000000"
+    },
+    "0x976EA74026E726554dB657fA54763abd0C3a0aa9": {
+      "balance": "1000000000000000000000"
+    },
+    "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc": {
+      "balance": "1000000000000000000000"
+    },
+    "0xBcd4042DE499D14e55001CcbB24a551F3b954096": {
+      "balance": "1000000000000000000000"
+    },
+    "0xFABB0ac9d68B0B445fB7357272Ff202C5651694a": {
+      "balance": "1000000000000000000000"
+    },
+    "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720": {
+      "balance": "1000000000000000000000"
+    },
+    "0xbDA5747bFD65F08deb54cb465eB87D40e51B197E": {
+      "balance": "1000000000000000000000"
+    },
+    "0xcd3B766CCDd6AE721141F452C550Ca635964ce71": {
+      "balance": "1000000000000000000000"
+    },
+    "0xdD2FD4581271e230360230F9337D5c0430Bf44C0": {
+      "balance": "1000000000000000000000"
+    },
+    "0xdF3e18d64BC6A983f673Ab319CCaE4f1a57C7097": {
+      "balance": "1000000000000000000000"
+    },
+    "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266": {
+      "balance": "1000000000000000000000"}
+  }'
   bpo_1_epoch: 18446744073709551615
   bpo_1_max_blobs: 0
   bpo_1_target_blobs: 0
@@ -134,14 +202,14 @@ network_params:
   bpo_5_max_blobs: 0
   bpo_5_target_blobs: 0
   bpo_5_base_fee_update_fraction: 0
-  withdrawal_type: "0x00"
+  withdrawal_type: "0x02"
   withdrawal_address: "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
   validator_balance: 32
   min_epochs_for_data_column_sidecars_requests: 4096
 
 additional_services: []
 dora_params:
-  image: ""
+  image: "ethpandaops/dora:v1.19.0"
 tx_fuzz_params:
   tx_fuzz_extra_args: []
 spamoor_params:
@@ -164,7 +232,7 @@ grafana_params:
   min_mem: 128
   max_mem: 2048
 assertoor_params:
-  image: ""
+  image: "ethpandaops/assertoor:v0.0.16"
   run_stability_check: false
   run_block_proposal_check: false
   run_transaction_test: false
@@ -183,7 +251,7 @@ mev_type: null
 mev_params:
   mev_relay_image: ethpandaops/mev-boost-relay:main
   mev_builder_image: ethpandaops/reth-rbuilder:develop
-  mev_builder_cl_image: sigp/lighthouse:latest
+  mev_builder_cl_image: sigp/lighthouse@sha256:a6e2b100ae4020160bbb68b135bffbb473ba43ec94d6f96c001d8d8bc3438c89
   mev_boost_image: ethpandaops/mev-boost:develop
   mev_boost_args: ["mev-boost", "--relay-check"]
   mev_relay_api_extra_args: []
@@ -200,7 +268,7 @@ mev_params:
     interval_between_transactions: 1
 xatu_sentry_enabled: false
 xatu_sentry_params:
-  xatu_sentry_image: ethpandaops/xatu-sentry
+  xatu_sentry_image: ethpandaops/xatu:v1.4.10
   xatu_server_addr: localhost:8000
   xatu_server_tls: false
   xatu_server_headers: {}
@@ -223,12 +291,12 @@ checkpoint_sync_url: ""
 ethereum_genesis_generator_params:
   image: ethpandaops/ethereum-genesis-generator:5.0.6
 port_publisher:
-  nat_exit_ip: KURTOSIS_IP_ADDR_PLACEHOLDER
+  nat_exit_ip: 0.0.0.0
   el:
-    enabled: false
+    enabled: true
     public_port_start: 32000
   cl:
-    enabled: false
+    enabled: true
     public_port_start: 33000
   vc:
     enabled: false
