@@ -3,7 +3,7 @@ postgres = import_module("github.com/kurtosis-tech/postgres-package/main.star")
 redis = import_module("github.com/kurtosis-tech/redis-package/main.star")
 constants = import_module("../package_io/constants.star")
 input_parser = import_module("../package_io/input_parser.star")
-IMAGE_NAME = "gobitfly/eth2-beaconchain-explorer:latest"
+IMAGE_NAME = "eth2-beaconchain-explorer:v1.58.0-173-ge7af8b80"
 
 POSTGRES_PORT_ID = "postgres"
 POSTGRES_PORT_NUMBER = 5432
@@ -21,17 +21,14 @@ FULL_BEACONCHAIN_CONFIG_FILENAME = "beaconchain-config.yml"
 
 
 def get_little_bigtable_host(little_bigtable, port_publisher):
-    if port_publisher.additional_services_enabled:
-        return port_publisher.additional_services_nat_exit_ip
+    # Always use the actual IP address of the little bigtable service
+    # The public IP is only for external access, not for internal connections
     return little_bigtable.ip_address
 
 
 def get_little_bigtable_port(little_bigtable, port_publisher):
-    if port_publisher.additional_services_enabled:
-        public_ports = shared_utils.get_public_ports_for_component(
-            "additional_services", port_publisher, 0
-        )
-        return public_ports[0]  # Use first port for little bigtable
+    # Always use the internal port for BigTable emulator connections
+    # The public port is only for external access
     return LITTLE_BIGTABLE_PORT_NUMBER
 
 
@@ -207,6 +204,30 @@ def launch_full_beacon(
                 "-command",
                 "applyDbSchema",
             ]
+        ),
+    )
+
+    plan.print("waiting 60s for little bigtable to be ready")
+    plan.exec(
+        service_name=initdbschema.name,
+        description="Waiting for little bigtable to be ready",
+        recipe=ExecRecipe(
+            command=["sh", "-c", "sleep 60"],
+        ),
+    )
+
+    lbt_host = get_little_bigtable_host(little_bigtable, port_publisher)
+    lbt_port = get_little_bigtable_port(little_bigtable, port_publisher)
+    plan.print("little bigtable host: {0}, port: {1}".format(lbt_host, lbt_port))
+    plan.print("testing little bigtable connectivity")
+    plan.exec(
+        service_name=initdbschema.name,
+        description="Testing little bigtable connectivity",
+        recipe=ExecRecipe(
+            command=["sh", "-c", "timeout 10 bash -c '</dev/tcp/{0}/{1}' && echo 'Connection successful' || echo 'Connection failed'".format(
+                lbt_host,
+                lbt_port
+            )],
         ),
     )
 

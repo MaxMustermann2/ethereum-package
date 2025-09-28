@@ -1,7 +1,7 @@
 participants:
 # EL
-  - el_type: geth
-    el_image: ethereum/client-go:v1.16.3
+  - el_type: reth
+    # el_image: ethereum/client-go:v1.16.3
     el_log_level: ""
     el_extra_env_vars: {}
     el_extra_labels: {}
@@ -15,11 +15,14 @@ participants:
     el_max_mem: 0
 # CL
     cl_type: lighthouse
-    cl_image: sigp/lighthouse@sha256:a6e2b100ae4020160bbb68b135bffbb473ba43ec94d6f96c001d8d8bc3438c89
+    # cl_image: chainsafe/lodestar:latest
+    # cl_image: ethpandaops/prysm-beacon-chain:develop
+    # cl_image: sigp/lighthouse@sha256:a6e2b100ae4020160bbb68b135bffbb473ba43ec94d6f96c001d8d8bc3438c89
     cl_log_level: ""
     cl_extra_env_vars: {}
     cl_extra_labels: {}
-    cl_extra_params: []
+    cl_extra_params:
+      - --reconstruct-historic-states
     cl_extra_mounts: {}
     cl_tolerations: []
     cl_volume_size: 0
@@ -31,7 +34,9 @@ participants:
     use_separate_vc: true
 # Validator
     vc_type: lighthouse
-    vc_image: sigp/lighthouse@sha256:a6e2b100ae4020160bbb68b135bffbb473ba43ec94d6f96c001d8d8bc3438c89
+    # vc_image: chainsafe/lodestar:latest
+    # vc_image: ethpandaops/prysm-validator:develop
+    # vc_image: sigp/lighthouse@sha256:a6e2b100ae4020160bbb68b135bffbb473ba43ec94d6f96c001d8d8bc3438c89
     vc_log_level: ""
     vc_extra_env_vars: {}
     vc_extra_labels: {}
@@ -70,11 +75,12 @@ participants:
     builder_network_params: null
     keymanager_enabled: false
 network_params:
+  preset: minimal
   network: kurtosis
   network_id: "31337"
   deposit_contract_address: "0x00000000219ab540356cBB839Cbe05303d7705Fa"
-  seconds_per_slot: 6
-  slot_duration_ms: 6000
+  seconds_per_slot: 4
+  slot_duration_ms: 4000
   num_validator_keys_per_node: 64
   preregistered_validator_keys_mnemonic:
     "giant issue aisle success illegal bike spike
@@ -86,9 +92,12 @@ network_params:
   max_per_epoch_activation_churn_limit: 8
   churn_limit_quotient: 65536
   ejection_balance: 16000000000
-  eth1_follow_distance: 2048
-  min_validator_withdrawability_delay: 256
-  shard_committee_period: 256
+  eth1_follow_distance: 4
+  min_validator_withdrawability_delay: 1
+  shard_committee_period: 1
+  # lodestar/lighthouse/prysm does not let you update the next 2
+  epochs_per_eth1_voting_period: 2
+  slots_per_epoch: 3
   attestation_due_bps_gloas: 2500
   aggregate_due_bps_gloas: 5000
   sync_message_due_bps_gloas: 2500
@@ -207,7 +216,9 @@ network_params:
   validator_balance: 32
   min_epochs_for_data_column_sidecars_requests: 4096
 
-additional_services: []
+additional_services:
+  - "blockscout"
+  - "full_beaconchain_explorer"
 dora_params:
   image: "ethpandaops/dora:v1.19.0"
 tx_fuzz_params:
@@ -289,7 +300,7 @@ keymanager_enabled: false
 checkpoint_sync_enabled: false
 checkpoint_sync_url: ""
 ethereum_genesis_generator_params:
-  image: ethpandaops/ethereum-genesis-generator:5.0.6
+  image: ethereum-genesis-generator:63c98e9
 port_publisher:
   nat_exit_ip: 0.0.0.0
   el:
@@ -305,7 +316,7 @@ port_publisher:
     enabled: false
     public_port_start: 35000
   additional_services:
-    enabled: false
+    enabled: true
     public_port_start: 36000
   mev:
     enabled: false

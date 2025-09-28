@@ -417,6 +417,7 @@ def input_parser(plan, input_args):
             ],
             seconds_per_slot=result["network_params"]["seconds_per_slot"],
             slot_duration_ms=result["network_params"]["slot_duration_ms"],
+            slots_per_epoch=result["network_params"]["slots_per_epoch"],
             genesis_delay=result["network_params"]["genesis_delay"],
             genesis_gaslimit=result["network_params"]["genesis_gaslimit"],
             max_per_epoch_activation_churn_limit=result["network_params"][
@@ -527,6 +528,7 @@ def input_parser(plan, input_args):
             min_epochs_for_data_column_sidecars_requests=result["network_params"][
                 "min_epochs_for_data_column_sidecars_requests"
             ],
+            epochs_per_eth1_voting_period=result["network_params"]["epochs_per_eth1_voting_period"],
         ),
         mev_params=struct(
             mev_relay_image=result["mev_params"]["mev_relay_image"],
@@ -1055,6 +1057,9 @@ def parse_network_params(plan, input_args):
             + result["network_params"]["preset"]
             + " is not supported, it can only be mainnet or minimal"
         )
+
+    result["network_params"]["slots_per_epoch"] = result["network_params"]["slots_per_epoch"]
+    result["network_params"]["epochs_per_eth1_voting_period"] = result["network_params"]["epochs_per_eth1_voting_period"]
 
     return result
 

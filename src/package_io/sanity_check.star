@@ -194,6 +194,7 @@ SUBCATEGORY_PARAMS = {
         "deposit_contract_address",
         "seconds_per_slot",
         "slot_duration_ms",
+        "slots_per_epoch",
         "num_validator_keys_per_node",
         "preregistered_validator_keys_mnemonic",
         "preregistered_validator_count",
@@ -264,6 +265,7 @@ SUBCATEGORY_PARAMS = {
         "withdrawal_address",
         "validator_balance",
         "min_epochs_for_data_column_sidecars_requests",
+        "epochs_per_eth1_voting_period",
     ],
     "blockscout_params": [
         "image",

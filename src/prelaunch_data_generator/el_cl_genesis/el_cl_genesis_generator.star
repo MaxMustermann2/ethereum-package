@@ -134,6 +134,7 @@ def new_env_file_for_el_cl_genesis_data(
         "DepositContractAddress": network_params.deposit_contract_address,
         "SecondsPerSlot": network_params.seconds_per_slot,
         "SlotDurationMs": network_params.slot_duration_ms,
+        "SlotsPerEpoch": network_params.slots_per_epoch,
         "PreregisteredValidatorKeysMnemonic": network_params.preregistered_validator_keys_mnemonic,
         "NumValidatorKeysToPreregister": total_num_validator_keys_to_preregister,
         "GenesisDelay": 0,  # This delay is already precaculated in the final_genesis_timestamp
@@ -142,6 +143,7 @@ def new_env_file_for_el_cl_genesis_data(
         "ChurnLimitQuotient": network_params.churn_limit_quotient,
         "EjectionBalance": network_params.ejection_balance,
         "Eth1FollowDistance": network_params.eth1_follow_distance,
+        "EpochsPerEth1VotingPeriod": network_params.epochs_per_eth1_voting_period,
         "AltairForkEpoch": "{0}".format(network_params.altair_fork_epoch),
         "BellatrixForkEpoch": "{0}".format(network_params.bellatrix_fork_epoch),
         "CapellaForkEpoch": "{0}".format(network_params.capella_fork_epoch),
