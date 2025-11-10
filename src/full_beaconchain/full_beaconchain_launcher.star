@@ -3,7 +3,7 @@ postgres = import_module("github.com/kurtosis-tech/postgres-package/main.star")
 redis = import_module("github.com/kurtosis-tech/redis-package/main.star")
 constants = import_module("../package_io/constants.star")
 input_parser = import_module("../package_io/input_parser.star")
-IMAGE_NAME = "eth2-beaconchain-explorer:v1.58.0-173-ge7af8b80"
+IMAGE_NAME = "eth2-beaconchain-explorer:v1.58.0-175-g18ec6b07"
 
 POSTGRES_PORT_ID = "postgres"
 POSTGRES_PORT_NUMBER = 5432
